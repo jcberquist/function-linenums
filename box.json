@@ -1,0 +1,28 @@
+{
+    "author":"John Berquist",
+    "bugs":"https://github.com/jcberquist/function-linenums/issues",
+    "devDependencies":{
+        "testbox":"^3.0.0"
+    },
+    "documentation":"https://github.com/jcberquist/function-linenums",
+    "homepage":"https://github.com/jcberquist/function-linenums",
+    "installPaths":{
+        "testbox":"testbox/"
+    },
+    "license":[
+        {
+            "type":"MIT",
+            "URL":"http://opensource.org/licenses/MIT"
+        }
+    ],
+    "location":"forgeboxStorage",
+    "name":"function-linenums",
+    "repository":{
+        "type":"git",
+        "URL":"https://github.com/jcberquist/function-linenums"
+    },
+    "shortDescription":"Utility module for computing function names from source paths and line numbers.",
+    "slug":"funclinenums",
+    "type":"modules",
+    "version":"1.0.0"
+}

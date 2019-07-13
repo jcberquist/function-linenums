@@ -1,0 +1,23 @@
+[
+    {
+        "end": 329, 
+        "endline": 21, 
+        "name": "scriptfunc", 
+        "start": 32, 
+        "startline": 3
+    }, 
+    {
+        "end": 255, 
+        "endline": 15, 
+        "name": "nested", 
+        "start": 203, 
+        "startline": 13
+    }, 
+    {
+        "end": 322, 
+        "endline": 19, 
+        "name": "assigned", 
+        "start": 269, 
+        "startline": 17
+    }
+]
