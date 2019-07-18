@@ -83,7 +83,15 @@ component {
      */
     function getFunctionRanges( required string filePath ) {
         if ( !variables.cache.keyExists( filePath ) ) {
-            variables.cache[ filePath ] = walk( fileRead( filePath ) );
+            try {
+                variables.cache[ filePath ] = walk( fileRead( filePath ) );
+            } catch (any e) {
+                // if unable to parse, avoid dying and just log this to the console
+                // cache an empty array to ensure we don't repeat the exception
+                var message = 'functionLineNums unable to parse #filePath#: #e.message#';
+                createObject( 'java', 'java.lang.System' ).out.println( message );
+                variables.cache[ filePath ] = [ ];
+            }
         }
         return variables.cache[ filePath ];
     }
