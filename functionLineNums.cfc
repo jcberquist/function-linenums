@@ -102,6 +102,12 @@ component {
      * @src CFML source code
      */
     function walk( required string src ) {
+        // start by normalizing the line endings
+        // if a file has CR characters with no LF characters
+        // convert those to LF characters - this will not 
+        // change the size of the file
+        src = src.reReplace('\r(?=[^\n]|$)', chr(10), 'all');
+
         var funcs = [ ];
         var name = 'cfml';
         var pos = 0;

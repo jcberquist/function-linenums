@@ -25,6 +25,12 @@ component extends="testbox.system.BaseSpec" {
                 var funcArray = functionLineNums.walk( input );
                 expect( funcArray ).toBe( output );
             } );
+            it( 'handles CR without a LF', function() {
+                var input = loadInput( 'scripttest.cfc' ).replace(chr(10), chr(13), 'all');
+                var output = loadOutput( 'scripttest.json' );
+                var funcArray = functionLineNums.walk( input );
+                expect( funcArray ).toBe( output );
+            } );
         } );
     }
 
