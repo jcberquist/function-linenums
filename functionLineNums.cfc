@@ -20,26 +20,76 @@ component {
     ];
     variables.cfscriptStart = '(?=^\s*(?:/\*|//|import\b|(?:component|abstract\s*component|final\s*component|interface)(?:\s+|\{)))';
     variables.RangeDefinitions = {
-        cfml: [ '(?=.)', '\Z', [ 'cfscript', 'cftags' ], 'first' ],
-        cfscript: [ cfscriptStart, '(?=\Z)', CFSCRIPT, 'first' ],
+        cfml: [
+            '(?=.)',
+            '\Z',
+            [ 'cfscript', 'cftags' ],
+            'first'
+        ],
+        cfscript: [
+            cfscriptStart,
+            '(?=\Z)',
+            CFSCRIPT,
+            'first'
+        ],
         cftags: [ '(?=\S)', '(?=\Z)', CFTAGS, 'first' ],
-        cfscript_tag: [ '<' & 'cfscript>', '</' & 'cfscript>', CFSCRIPT, 'first' ],
-        cffunction_start: [ '<' & 'cffunction', '>', [ 'cffunction_name', 'string_single', 'string_double' ], 'first' ],
-        cffunction_name: [ 'name\s*=\s*["''][^"'']+["'']', '(?=.)', [ ], 'first' ],
-        cffunction_end: [ '</' & 'cffunction', '>', [ 'string_single', 'string_double' ], 'first' ],
-        cftag: [ '</?' & 'cf\w+', '>', [ 'string_single', 'string_double' ], 'first' ],
+        cfscript_tag: [
+            '<' & 'cfscript>',
+            '</' & 'cfscript>',
+            CFSCRIPT,
+            'first'
+        ],
+        cffunction_start: [
+            '<' & 'cffunction',
+            '>',
+            [ 'cffunction_name', 'string_single', 'string_double' ],
+            'first'
+        ],
+        cffunction_name: [
+            'name\s*=\s*["''][^"'']+["'']',
+            '(?=.)',
+            [ ],
+            'first'
+        ],
+        cffunction_end: [
+            '</' & 'cffunction',
+            '>',
+            [ 'string_single', 'string_double' ],
+            'first'
+        ],
+        cftag: [
+            '</?' & 'cf\w+',
+            '>',
+            [ 'string_single', 'string_double' ],
+            'first'
+        ],
         curly_brackets: [ '\{', '\}', CFSCRIPT, 'first' ],
         escaped_double_quote: [ '""', '(?=.)', [ ], 'first' ],
         escaped_hash: [ '####', '(?=.)', [ ], 'first' ],
         escaped_single_quote: [ '''''', '(?=.)', [ ], 'first' ],
-        function_declaration: ['\bfunction\s+\w+\b|\b[\w.]+\s*=\s*function\b', '(?=\s*\()', [ ], 'first'],
+        function_declaration: [
+            '\bfunction\s+\w+\b|\b[\w.]+\s*=\s*function\b',
+            '(?=\s*\()',
+            [ ],
+            'first'
+        ],
         hash: [ '##', '##', CFSCRIPT, 'first' ],
         line_comment: [ '//', '\n', [ ], 'first' ],
         multiline_comment: [ '/\*', '\*/', [ ], 'first' ],
         parentheses: [ '\(', '\)', CFSCRIPT, 'first' ],
         square_brackets: [ '\[', '\]', CFSCRIPT, 'first' ],
-        string_double: [ '"', '"', [ 'escaped_hash', 'hash', 'escaped_double_quote' ], 'last' ],
-        string_single: [ '''', '''', [ 'escaped_hash', 'hash', 'escaped_single_quote' ], 'last' ],
+        string_double: [
+            '"',
+            '"',
+            [ 'escaped_hash', 'hash', 'escaped_double_quote' ],
+            'last'
+        ],
+        string_single: [
+            '''',
+            '''',
+            [ 'escaped_hash', 'hash', 'escaped_single_quote' ],
+            'last'
+        ],
         tag_comment: [ '<!---', '--->', [ ], 'first' ]
     };
 
@@ -85,7 +135,7 @@ component {
         if ( !variables.cache.keyExists( filePath ) ) {
             try {
                 variables.cache[ filePath ] = walk( fileRead( filePath ) );
-            } catch (any e) {
+            } catch ( any e ) {
                 // if unable to parse, avoid dying and just log this to the console
                 // cache an empty array to ensure we don't repeat the exception
                 var message = 'functionLineNums unable to parse #filePath#: #e.message#';
@@ -104,9 +154,9 @@ component {
     function walk( required string src ) {
         // start by normalizing the line endings
         // if a file has CR characters with no LF characters
-        // convert those to LF characters - this will not 
+        // convert those to LF characters - this will not
         // change the size of the file
-        src = src.reReplace('\r(?=[^\n]|$)', chr(10), 'all');
+        src = src.reReplace( '\r(?=[^\n]|$)', chr( 10 ), 'all' );
 
         var funcs = [ ];
         var name = 'cfml';
@@ -162,7 +212,7 @@ component {
 
     private function groupName( names, matcher ) {
         for ( var i = 1; i <= names.len(); i++ ) {
-            if ( !isNull( matcher.group( javacast('int', i ) ) ) ) {
+            if ( !isNull( matcher.group( javacast( 'int', i ) ) ) ) {
                 return names[ i ];
             }
         }
@@ -181,7 +231,9 @@ component {
         switch ( func.name ) {
             case 'function_declaration':
                 end_name = 'curly_brackets';
-                var matcher = regex.funcname.script.matcher( mid( src, func.start + 1, func.end - func.start ) );
+                var matcher = regex.funcname.script.matcher(
+                    mid( src, func.start + 1, func.end - func.start )
+                );
                 if ( matcher.lookingAt() ) {
                     for ( var i = 1; i <= 2; i++ ) {
                         var func_name = matcher.group( javacast( 'int', i ) );
@@ -192,12 +244,13 @@ component {
                     }
                 }
                 break;
-
             case 'cffunction_start':
                 end_name = 'cffunction_end';
                 for ( var child in func.children ) {
                     if ( child.name == 'cffunction_name' ) {
-                        var matcher = regex.funcname.tag.matcher( mid( src, child.start + 1, child.end - child.start ) );
+                        var matcher = regex.funcname.tag.matcher(
+                            mid( src, child.start + 1, child.end - child.start )
+                        );
                         if ( matcher.lookingAt() ) {
                             parsed.name = matcher.group( javacast( 'int', 1 ) );
                         }
