@@ -151,6 +151,7 @@ component {
 
     private function srcRange( name, start ) {
         return {
+            id: createUUID(),
             name: name,
             start: start,
             end: -1,
@@ -206,10 +207,14 @@ component {
         }
 
         // determine end line
-        var idx = func.parent.children.find( func );
-        for ( var i = idx; i <= arrayLen( func.parent.children ); i++ ) {
-            parsed.end = func.parent.children[ i ].end;
-            if ( func.parent.children[ i ].name == end_name ) break;
+        var funcSeen = false;
+        for ( var i = 1; i <= arrayLen( func.parent.children ); i++ ) {
+            if ( funcSeen ) {
+                parsed.end = func.parent.children[ i ].end;
+                if ( func.parent.children[ i ].name == end_name ) break;
+            } else if ( func.id == func.parent.children[ i ].id ) {
+                funcSeen = true;
+            }
         }
         parsed.endLine = lineNum( src, parsed.end );
 
