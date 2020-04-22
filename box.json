@@ -24,5 +24,8 @@
     "shortDescription":"Utility module for computing function names from source paths and line numbers.",
     "slug":"funclinenums",
     "type":"modules",
-    "version":"1.1.2"
+    "version":"1.1.2",
+    "ignore":[
+        "/tests",
+    ]
 }
