@@ -303,7 +303,7 @@ component {
         } );
 
         for ( var name in expandedRD ) {
-            rd = expandedRD[ name ];
+            var rd = expandedRD[ name ];
             regexMap.range[ name ] = { start: patternClass.compile( rd.start, 34 ) };
 
             var patterns = [ ];
