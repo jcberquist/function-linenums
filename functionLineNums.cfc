@@ -161,7 +161,8 @@ component {
         var funcs = [ ];
         var name = 'cfml';
         var pos = 0;
-        var rangeToWalk = srcRange( name, pos );
+        var rangeCounter = 1;
+        var rangeToWalk = srcRange( rangeCounter, name, pos );
         var currentRange = rangeToWalk;
 
         while ( !isNull( currentRange ) ) {
@@ -183,7 +184,7 @@ component {
                 currentRange.end = pos;
                 currentRange = !isNull( currentRange.parent ) ? currentRange.parent : javacast( 'null', '' );
             } else {
-                var childRange = srcRange( name, matcher.start() );
+                var childRange = srcRange( ++rangeCounter, name, matcher.start() );
                 childRange.parent = currentRange;
                 currentRange.children.append( childRange );
                 currentRange = childRange;
@@ -199,9 +200,9 @@ component {
         } );
     }
 
-    private function srcRange( name, start ) {
+    private function srcRange( rangeCounter, name, start ) {
         return {
-            id: createUUID(),
+            id: rangeCounter,
             name: name,
             start: start,
             end: -1,
