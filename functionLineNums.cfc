@@ -20,77 +20,77 @@ component {
     ];
     variables.cfscriptStart = '(?=^\s*(?:/\*|//|import\b|(?:component|abstract\s*component|final\s*component|interface)(?:\s+|\{)))';
     variables.RangeDefinitions = {
-        cfml: [
+        'cfml': [
             '(?=.)',
             '\Z',
             [ 'cfscript', 'cftags' ],
             'first'
         ],
-        cfscript: [
+        'cfscript': [
             cfscriptStart,
             '(?=\Z)',
             CFSCRIPT,
             'first'
         ],
-        cftags: [ '(?=\S)', '(?=\Z)', CFTAGS, 'first' ],
-        cfscript_tag: [
+        'cftags': [ '(?=\S)', '(?=\Z)', CFTAGS, 'first' ],
+        'cfscript_tag': [
             '<' & 'cfscript>',
             '</' & 'cfscript>',
             CFSCRIPT,
             'first'
         ],
-        cffunction_start: [
+        'cffunction_start': [
             '<' & 'cffunction',
             '>',
             [ 'cffunction_name', 'string_single', 'string_double' ],
             'first'
         ],
-        cffunction_name: [
+        'cffunction_name': [
             'name\s*=\s*["''][^"'']+["'']',
             '(?=.)',
             [ ],
             'first'
         ],
-        cffunction_end: [
+        'cffunction_end': [
             '</' & 'cffunction',
             '>',
             [ 'string_single', 'string_double' ],
             'first'
         ],
-        cftag: [
+        'cftag': [
             '</?' & 'cf\w+',
             '>',
             [ 'string_single', 'string_double' ],
             'first'
         ],
-        curly_brackets: [ '\{', '\}', CFSCRIPT, 'first' ],
-        escaped_double_quote: [ '""', '(?=.)', [ ], 'first' ],
-        escaped_hash: [ '####', '(?=.)', [ ], 'first' ],
-        escaped_single_quote: [ '''''', '(?=.)', [ ], 'first' ],
-        function_declaration: [
+        'curly_brackets': [ '\{', '\}', CFSCRIPT, 'first' ],
+        'escaped_double_quote': [ '""', '(?=.)', [ ], 'first' ],
+        'escaped_hash': [ '####', '(?=.)', [ ], 'first' ],
+        'escaped_single_quote': [ '''''', '(?=.)', [ ], 'first' ],
+        'function_declaration': [
             '\bfunction\s+\w+\b|\b[\w.]+\s*=\s*function\b',
             '(?=\s*\()',
             [ ],
             'first'
         ],
-        hash: [ '##', '##', CFSCRIPT, 'first' ],
-        line_comment: [ '//', '\n', [ ], 'first' ],
-        multiline_comment: [ '/\*', '\*/', [ ], 'first' ],
-        parentheses: [ '\(', '\)', CFSCRIPT, 'first' ],
-        square_brackets: [ '\[', '\]', CFSCRIPT, 'first' ],
-        string_double: [
+        'hash': [ '##', '##', CFSCRIPT, 'first' ],
+        'line_comment': [ '//', '\n', [ ], 'first' ],
+        'multiline_comment': [ '/\*', '\*/', [ ], 'first' ],
+        'parentheses': [ '\(', '\)', CFSCRIPT, 'first' ],
+        'square_brackets': [ '\[', '\]', CFSCRIPT, 'first' ],
+        'string_double': [
             '"',
             '"',
             [ 'escaped_hash', 'hash', 'escaped_double_quote' ],
             'last'
         ],
-        string_single: [
+        'string_single': [
             '''',
             '''',
             [ 'escaped_hash', 'hash', 'escaped_single_quote' ],
             'last'
         ],
-        tag_comment: [ '<!---', '--->', [ ], 'first' ]
+        'tag_comment': [ '<!---', '--->', [ ], 'first' ]
     };
 
     function init() {
